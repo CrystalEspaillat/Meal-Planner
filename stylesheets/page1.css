@@ -1,0 +1,133 @@
+/* ////////// The Reset ////////// */
+body {
+    height: 100vh;
+    width: 100vw;
+    color: #202020;
+    overflow: hidden;
+}
+
+/* ////////// The Icon ////////// */
+
+.meal-icon img {
+    /* Make the icon a specific height */
+    width: 200px;
+    height: 200px;
+
+    /* Grow Animation */
+    transition: all .5s ease;
+}
+
+.meal-icon img:hover {
+    /* Make the image look like a link */
+    cursor: pointer;
+    
+    /* New dimensions when you hover */
+    width: 230px;
+    height: 230px;
+}
+
+/* ////////// The Layout ////////// */
+
+.icon-div {
+    background: powderblue;
+    /* Take up the whole screen at first */
+    height: 100vh;
+    width: 100vw;
+    /*center the icon*/
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.search-div {
+    height: 5vh;
+    width: 100%;
+    background: white;
+    visibility: collapse;
+    display: flex;
+
+}
+
+.menu-div {
+    height: 50vh;
+    visibility: collapse;
+}
+
+.left-side, .right-side {
+    width: 50vw;
+    z-index: 5;
+}
+
+.right-side {
+    visibility: collapse;
+    z-index: 10;
+}
+
+.content {
+    display: none;
+}
+
+/* ////////// The Suggested Recipes ////////// */
+
+
+.recipe-row {
+    height: 50%;
+    width: 100%;
+}
+.recipe-btn {
+    height: 100%;
+    background: #E5E5E5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid whitesmoke;
+}
+
+.recipe-btn:hover {
+    background: whitesmoke;
+    cursor: pointer;
+}
+
+/* ////////// The On Click Animations ////////// */
+
+.animate {
+    transition: all .25s ease;
+}
+
+.slide-icon {
+    width: 100%;
+    height: 45vh;
+}
+
+.display{
+    visibility: visible;
+}
+
+/* ////////// The Form ////////// */
+
+form {
+    display: flex;
+    justify-content:space-between;
+    width: 100%;
+    padding: 0px 0px;
+}
+#search {
+    height: 100%;
+    border: 0px solid transparent;
+    margin: 0px;
+}
+ #submit {
+     background-color: #f9b44c;
+     border: 0px;
+     color: white;
+     font-weight: bold;
+     text-transform: uppercase;
+     height: 100%;
+ }
+
+ #submit:hover {
+     cursor: pointer;
+ }
+
+
+
