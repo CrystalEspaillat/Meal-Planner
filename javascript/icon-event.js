@@ -15,8 +15,9 @@ $(".meal-icon").on("click", function() {
     // show content to the right
     $(".content").fadeIn(1050);
 
+    // Ajax call
     food="breakfast";
-    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=63cbc637&app_key=ce69f429d5076b739268cd396568280a&from=0&to=6";
+    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from=0&to=6";
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -24,6 +25,7 @@ $(".meal-icon").on("click", function() {
         for(j=0 ; j < response.hits.length ; j++){
             $('#meal'+j).text(response.hits[j].recipe.label).val(j);
 
+            // Recipe Buttons Click Event
             $('#meal'+j).on('click' , function(){
                 console.log(this.value);
 
@@ -31,9 +33,10 @@ $(".meal-icon").on("click", function() {
 
                 var recipeYield = response.hits[this.value].recipe.yield;
 
+                var foodPic = $('<div>').css('background-image' , 'url("' + response.hits[this.value].recipe.image + '")').addClass('food-pic');
                 var labelHead = $('<h1>').attr('class' , 'food-label').text(response.hits[this.value].recipe.label);
+                foodPic.append(labelHead);
                 var yieldPrint = $('<p>').attr('class' , 'yield-print').text("Serves: " + recipeYield);
-                var foodPic = $('<img>').attr('src' , response.hits[this.value].recipe.image);
 
                 var ingredientList = $('<ol>').attr('class' , 'indgredient-list')
 
@@ -45,37 +48,35 @@ $(".meal-icon").on("click", function() {
                 var recipeURL = $('<a>').attr('class' , 'recipe-url').text("click here for recipe");
                 recipeURL.attr('href' , response.hits[this.value].recipe.url);
 
-                var headingRow = $('<tr>').html('<th></th><th>Amount Per Serving</th><th>Daily Percent</th>')
+                var headingRow = $('<tr>').html('<th>Cals</th> <th>Carbs</th> <th>Fats</th> <th>Protein</th>')
+                var dataRow = $('<tr>');
 
                 //calorie amount
-                var calorieLabel = $('<td>').html("<b>Calories</b>");
                 var calorieValue = $('<td>').text(Math.round(response.hits[this.value].recipe.calories/recipeYield));
-                var calorieRowSpacer  = $('<td>').text('')
-                var calorieRow = $('<tr>').append(calorieLabel , calorieValue , calorieRowSpacer);
+                dataRow.append(calorieValue);
 
                 //fat amount and daily value
-                var fatLabel = $('<td>').html("<b>Total Fat</b>");
-                var totalFatValue =  $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.FAT.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.FAT.unit);
-                var dailyFatValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.FAT.quantity/recipeYield) + '%');
-                var fatRow = $('<tr>').append(fatLabel , totalFatValue , dailyFatValue);
+                var fatValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.FAT.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.FAT.unit);
+                // var dailyFatValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.FAT.quantity/recipeYield) + '%');
+                dataRow.append(fatValue);
 
                 //carb amount and daily value
-                var carbLabel = $('<td>').html("<b>Total Carbohydrate</b>");
-                var totalCarbValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.CHOCDF.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.CHOCDF.unit);
-                var dailyCarbValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.CHOCDF.quantity/recipeYield) + '%');
-                var carbRow = $('<tr>').append(carbLabel , totalCarbValue , dailyCarbValue);
+                var carbValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.CHOCDF.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.CHOCDF.unit);
+                // var dailyCarbValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.CHOCDF.quantity/recipeYield) + '%');
+                dataRow.append(carbValue);
 
                 //protein amount and daily value
-                var proteinLabel = $('<td>').html("<b>Protein</b>");
-                var totalProteinValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.PROCNT.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.PROCNT.unit);
-                var dailyProteinValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.PROCNT.quantity/recipeYield) + '%');
-                var proteinRow = $('<tr>').append(proteinLabel , totalProteinValue , dailyProteinValue);
+                var proteinValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalNutrients.PROCNT.quantity/recipeYield) + response.hits[this.value].recipe.totalNutrients.PROCNT.unit);
+                // var dailyProteinValue = $('<td>').text(Math.round(response.hits[this.value].recipe.totalDaily.PROCNT.quantity/recipeYield) + '%');
+                dataRow.append(proteinValue);
 
                 var nutrientTable = $('<table>').attr('class' , 'nutrient-table')
 
-                nutrientTable.append(headingRow , calorieRow , fatRow , carbRow , proteinRow);
+                nutrientTable.append(headingRow , dataRow);
 
-                recipeContent.append(labelHead , yieldPrint , foodPic , ingredientList , nutrientTable , recipeURL)
+                // nutrientTable.append(headingRow , calorieRow , fatRow , carbRow , proteinRow);
+
+                recipeContent.append(foodPic, nutrientTable, yieldPrint , ingredientList , recipeURL)
 
                 recipeContent.append(recipeContent)
             })
