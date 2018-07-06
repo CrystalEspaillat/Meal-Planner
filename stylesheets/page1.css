@@ -54,7 +54,8 @@ body {
 
 .right-side {
     visibility: collapse;
-    z-index: 10;
+    height: 100vh;
+    overflow-y: scroll;
 }
 
 .content {
