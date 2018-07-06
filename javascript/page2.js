@@ -27,7 +27,7 @@ function toggler () {
 };
 //button function to page1 
 function goBack () {
-    window.location='https://google.com/';
+    window.location='index.html';
   };
 
 //send to mailbox function 
