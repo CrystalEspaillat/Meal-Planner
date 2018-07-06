@@ -1,0 +1,78 @@
+/* ////////// The Recipe Header ////////// */
+
+.food-pic {
+    position: relative;
+    height: 45vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    text-align: right;
+
+}
+
+/* ////////// The Nutrient Table ////////// */
+
+.nutrient-table {
+    width: 100%;
+    border: 1px solid whitesmoke;
+}
+
+.nutrient-table th {
+    background-color: #D9D9D9;
+    border: 1px solid whitesmoke;
+    text-align: center;
+    height: 40px;
+    width: 25%;
+}
+.nutrient-table td {
+    background-color: whitesmoke;
+    text-align: center;
+    height: 40px;
+}
+
+/* ////////// The Bottom Menu ////////// */
+
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#see-recipe, #save-recipe, #see-plan {
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+#see-recipe {
+    background: #B2E0E6;
+}
+#see-recipe:hover {
+    background: #A6DAE0;
+}
+
+
+#save-recipe {
+    background: #C4E5A9;
+}
+#save-recipe:hover {
+    background: #B8DB99;
+}
+
+#see-plan {
+    background: #dd9c99;
+}
+#see-plan:hover {
+    background: #db8a87;
+}
+
