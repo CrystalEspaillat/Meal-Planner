@@ -63,7 +63,7 @@ $(".meal-icon").on("click", function() {
                 //adds firebase key value to button for bookmarking purposes
                 if(response.hits[this.value].bookmarked === true){
                     console.log(response.hits[this.value].fbKey)
-                    $('#meal'+this.value).attr('firebase-key' , response.hits[this.value].fbKey)
+                    $('#meal'+this.value).attr('firebase-key' , response.hits[this.value].fbKey);
                 }
 
                 //clear top and bottom to display data based on the Reciped Button clicked
@@ -162,8 +162,10 @@ $(".meal-icon").on("click", function() {
                     if(responseObject.recipeBookmarked === false){
                         // marks the recipe as saved and changes the button to inform the user that the recipe is saved
                         response.hits[this.value].bookmarked = true;
+                        $('#meal'+this.value).addClass("color-change");
+                        // console.log(this.value);
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;
-                        saveRecipeDiv.text('Recipe Saved')
+                        saveRecipeDiv.text('Recipe Saved');
                         // pushes the recipe data to firebase
                         var fbRef = database.ref().push({
                             recipeName: responseObject.recipeName,
