@@ -57,7 +57,6 @@ $(".meal-icon").on("click", function() {
 
             // Labels menu buttons
             $('#meal'+j).text(response.hits[j].recipe.label).val(j).attr('firebase-key' , 'x');
-
             // Recipe Buttons Click Event
             $('#meal'+j).on('click' , function(){
 
@@ -94,7 +93,6 @@ $(".meal-icon").on("click", function() {
                 foodPic.append(labelHead);
 
                 var yieldPrint = $('<p>').attr('class' , 'yield-print').text("Serves: " + responseObject.recipeYield);
-
                 var ingredientList = $('<ol>').attr('class' , 'indgredient-list')
 
                 for(i = 0; i < responseObject.recipeIngredients.length; i++){
@@ -104,6 +102,7 @@ $(".meal-icon").on("click", function() {
 
                 var recipeURL = $('<a>').attr('class' , 'recipe-url').text("click here for recipe");
                 recipeURL.attr('href' , responseObject.recipeLink);
+
 
                 var headingRow = $('<tr>').html('<th>Cals</th> <th>Carbs</th> <th>Fats</th> <th>Protein</th>')
                 var dataRow = $('<tr>');
