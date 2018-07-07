@@ -138,14 +138,15 @@ $(".meal-icon").on("click", function() {
                     window.location = $(this).find(srLink).attr("href"); 
                     return false;
                 });
-                // ('href' , responseObject.recipeLink);
-
-                // $(seeRecipeDiv).click(function() {
-                //     window.location.assign($(this).data(responseObject.recipeLink));
-                // });
 
                 var saveRecipeDiv = $('<div>').attr('id' , 'save-recipe').val(this.value);
                 var seePlanDiv = $('<div>').text('See Plan').attr('id' , 'see-plan');
+                var page2Link = $('<a>').attr('href' , 'page2.html');
+                seePlanDiv.append(page2Link);
+                $(seePlanDiv).click(function() {
+                    window.location = $(this).find(page2Link).attr("href"); 
+                    return false;
+                });
 
                 // text on Save Recipe button changes depending on if a recipe is saved or not
                 if(responseObject.recipeBookmarked === true){
