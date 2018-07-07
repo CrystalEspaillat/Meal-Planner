@@ -76,3 +76,10 @@
     background: #db8a87;
 }
 
+@media screen and (max-width: 400px) {
+    .bottom-menu {
+        width: 100%;
+    }
+
+}
+
