@@ -36,9 +36,10 @@ function toggler () {
             var sv = snapshot.val();
         
             // calorie count
-            var caloriePrint = $('<p>').text('Calories: ' + sv.recipeDetails.calorieCount);
-        
+            var calorieTableData = $('<td>').text(sv.recipeDetails.calorieCount);
+
             //macro table
+            var calorieRow = $('<tr>').append($('<td>').text('Calories: ') , calorieTableData , $('<td>'))
             var carbTableData = $('<td>').text(sv.recipeDetails.carbCount + 'g')
             var carbPercent = $('<td>').text(sv.recipeDetails.carbPercent + '%')
             var carbRow = $('<tr>').append($('<td>').text('Carbs: ') , carbTableData , carbPercent)
@@ -49,7 +50,7 @@ function toggler () {
             var proteinPercent = $('<td>').text(sv.recipeDetails.proteinPercent + '%')
             var proteinRow = $('<tr>').append($('<td>').text('Protein: ') , proteinTableData , proteinPercent)
         
-            var macroTable = $('<table>').append(carbRow , fatRow , proteinRow).css('width' , '400px')
+            var macroTable = $('<table id=macroTable>').append(calorieRow, carbRow , fatRow , proteinRow).css('width' , '400px')
         
            //macro pie chart
             var chartGen = function(chartPlace){
@@ -69,8 +70,13 @@ function toggler () {
         
                     var options = {
                         title: sv.recipeName,
-                        'width':400,
-                        'height':300
+                        width: 400,
+                        height: 240,
+                        colors: ['#B2E0E6', '#F9B44C', '#DA4E46'],
+                        is3D: true,
+                        backgroundColor: { fill:'transparent' }
+
+                      
                     };
                     var chart = new google.visualization.PieChart(document.getElementById(chartPlace));
         
@@ -80,11 +86,12 @@ function toggler () {
         
             var newChartDiv = $('<div>').attr('id' , 'chart_div' + snapshot.key);
         
-            var totalDiv = $('<div>').attr('id' , snapshot.key + 'total-div-macro')
+            var totalDiv = $('<div>').attr('id' , snapshot.key + 'total-div-macro').addClass("chart")
         
-            totalDiv.append(newChartDiv , caloriePrint , macroTable)
+            totalDiv.append(newChartDiv , macroTable)
         
             $('.infoBox').append(totalDiv);
+            $('.chart').fadeIn(800000);
             
             console.log(snapshot.key)
         
@@ -120,7 +127,7 @@ function toggler () {
         });    
         $(".inner-container:nth-child(2)").css({"background": "#DA4E46", "color": "white"});
         $(".inner-container:first-child").css({"background": "whitesmoke", "color": "#a9a9a9"})        
-        $(".infoBox").css({"background": "#B2E0E6"})      
+        $(".infoBox").css({"background": "#F6E3BC"})      
     }
     console.log(toggleNumber)
 };
