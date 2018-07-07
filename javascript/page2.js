@@ -1,3 +1,4 @@
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDRRlJBFRbxKDSBiBJ3Wh3bvxcQoDG58xU",
@@ -10,7 +11,6 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-
 //toggle variables
 var toggle = $('.toggleButton');
 var toggleD= $('#toggle-container');
@@ -26,6 +26,7 @@ function toggler () {
     toggleNumber =!toggleNumber
 
     if (toggleNumber === false) {
+
         $('.infoBox').empty();
         //Macro Dump
         $(".inner-container:nth-child(2)").css({"background": "whitesmoke", "color": "#a9a9a9"});
@@ -132,4 +133,3 @@ function goBack () {
 function mailBox () {
    window.location="https://mail.google.com/";
 };
-  
