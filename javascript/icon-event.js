@@ -1,6 +1,3 @@
-var food;
-var recipeContent = $('.content');
-
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDRRlJBFRbxKDSBiBJ3Wh3bvxcQoDG58xU",
@@ -16,6 +13,10 @@ var database = firebase.database();
 
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
+    var iconValue = $(this).attr('food-value')
+
+    //ajax query function
+    recipeAjaxCall(iconValue)
 
     //slide icon to the top left
     $(".icon-div").addClass("animate slide-icon");
@@ -32,14 +33,25 @@ $(".meal-icon").on("click", function() {
     // show content to the right
     $(".content").fadeIn(1050);
 
+    // search bar function
+    $('#submit').on('click' , function(event){
+        event.preventDefault();
+        // searches for user input within the meal of the icon clicked
+        recipeAjaxCall(iconValue + ' ' + $('#search').val());
+        $('.content').empty();
+        $('.content').html('<h1>Click or search a recipe for more info.</h1>')
+        $('.bottom-menu').empty();
+    })
+    
+});
+
+var recipeAjaxCall = function(food){
     // Ajax call
-    food="breakfast";
     var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from=0&to=6";
     $.ajax({
         url: queryURL,
         method: "GET",
     }).then(function ajaxFollow(response){
-        console.log(response)
 
         //check firebase for bookmarks
         database.ref().on("child_added", function(snapshot) {
@@ -54,13 +66,13 @@ $(".meal-icon").on("click", function() {
                 }
             }
         });
-        
 
         //Add text and values to Recipe Buttons
         for(j=0 ; j < response.hits.length ; j++){
 
             // Labels menu buttons
             $('#meal'+j).text(response.hits[j].recipe.label).val(j).attr('firebase-key' , 'x');
+
             // Recipe Buttons Click Event
             $('#meal'+j).on('click' , function(){
 
@@ -71,7 +83,7 @@ $(".meal-icon").on("click", function() {
                 }
 
                 //clear top and bottom to display data based on the Reciped Button clicked
-                recipeContent.empty();
+                $('.content').empty();
                 $('.bottom-menu').empty();
 
                 //Object created based on AJAX response
@@ -131,7 +143,7 @@ $(".meal-icon").on("click", function() {
 
                 nutrientTable.append(headingRow , dataRow);
 
-                recipeContent.append(foodPic, nutrientTable, yieldPrint , ingredientList , recipeURL);
+                $('.content').append(foodPic, nutrientTable, yieldPrint , ingredientList , recipeURL);
 
                 // buttons created for bottom menu
                 var seeRecipeDiv = $('<div>').text('See Recipe').attr('id' , 'see-recipe');
@@ -201,4 +213,4 @@ $(".meal-icon").on("click", function() {
             })
         }
     })
-});
+}
