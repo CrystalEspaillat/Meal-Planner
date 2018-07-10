@@ -15,6 +15,7 @@ var database = firebase.database();
 $(".meal-icon").on("click", function() {
     var iconValue = $(this).attr('food-value')
 
+    //hide other icons
     this.removeClass("meal-icon");
     $(".meal-icon").addClass("hide");
 
