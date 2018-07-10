@@ -17,6 +17,7 @@ $(".meal-icon").on("click", function() {
 
     //hide other icons
     this.removeClass("meal-icon");
+    console.log(this);
     $(".meal-icon").addClass("hide");
 
     //ajax query function
