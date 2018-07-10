@@ -76,6 +76,15 @@
     background: #db8a87;
 }
 
+/* ////////// The Menu Color Change  ////////// */
+
+.color-change {
+    background-color: #b8db99;
+}
+
+/* ////////// The Mobile Menu ////////// */
+
+
 @media screen and (max-width: 400px) {
     .bottom-menu {
         width: 100%;
