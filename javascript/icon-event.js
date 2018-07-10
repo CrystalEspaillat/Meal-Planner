@@ -15,6 +15,9 @@ var database = firebase.database();
 $(".meal-icon").on("click", function() {
     var iconValue = $(this).attr('food-value')
 
+    this.removeClass("meal-icon");
+    $(".meal-icon").addClass("hide");
+
     //ajax query function
     recipeAjaxCall(iconValue)
 

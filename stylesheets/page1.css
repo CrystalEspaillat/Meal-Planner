@@ -147,6 +147,10 @@ form {
     height: 100vh;
 }
 
+.hide {
+    visibility: hidden;
+}
+
 /* ////////// Responsive ////////// */
 
 @media screen and (max-width: 400px) {
