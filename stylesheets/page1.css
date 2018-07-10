@@ -26,6 +26,21 @@ body {
     height: 230px;
 }
 
+/* ////////// The Back-Arrow ////////// */
+.back-arrow {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 15px;
+    color: #202020;
+    visibility: hidden;
+}
+
+.back-arrow:hover {
+    color: white;
+}
+
+
 /* ////////// The Layout ////////// */
 
 .icon-div {
@@ -125,6 +140,11 @@ form {
 
 .display{
     visibility: visible;
+}
+
+.close-panels {
+    width: 100vw;
+    height: 100vh;
 }
 
 /* ////////// Responsive ////////// */
