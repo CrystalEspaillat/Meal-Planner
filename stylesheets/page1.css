@@ -3,6 +3,7 @@ body {
     width: 100%;
     color: #202020;
     overflow-y: hidden;
+    margin-bottom: 50px;
 }
 
 /* ////////// The Icon ////////// */
@@ -25,6 +26,21 @@ body {
     height: 230px;
 }
 
+/* ////////// The Back-Arrow ////////// */
+.back-arrow {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin: 15px;
+    color: #202020;
+    visibility: hidden;
+}
+
+.back-arrow:hover {
+    color: white;
+}
+
+
 /* ////////// The Layout ////////// */
 
 .icon-div {
@@ -40,11 +56,10 @@ body {
 
 .search-div {
     height: 5vh;
-    width: 100%;
+    width: 50vw;
     background: white;
     visibility: collapse;
     display: flex;
-
 }
 
 .menu-div {
@@ -95,6 +110,7 @@ form {
     height: 100%;
     border: 0px solid transparent;
     margin: 0px;
+    width: 45vw;
 }
  #submit {
      background-color: #f9b44c;
@@ -103,6 +119,7 @@ form {
      font-weight: bold;
      text-transform: uppercase;
      height: 100%;
+     width: 5vw;
  }
 
  #submit:hover {
@@ -125,9 +142,14 @@ form {
     visibility: visible;
 }
 
+.close-panels {
+    width: 100vw;
+    height: 100vh;
+}
+
 /* ////////// Responsive ////////// */
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 400px) {
     body {
         overflow-y: scroll;
         height: auto;
@@ -135,6 +157,25 @@ form {
 
     .menu-div {
         height: 20vh;
+    }
+
+    .search-div {
+        width: 100vw;
+    }
+
+    #search {
+        width: 80vw;
+    }
+    #submit {
+        width: 20vw;
+    }
+
+    h1 {
+        font-size: 20pt;
+    }
+
+    .recipe-btn {
+        font-size: 8pt;
     }
 
 }

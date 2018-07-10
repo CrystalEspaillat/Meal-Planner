@@ -20,11 +20,15 @@ $(".meal-icon").on("click", function() {
 
     //slide icon to the top left
     $(".icon-div").addClass("animate slide-icon");
+    $(".icon-div").removeClass("animate close-panels");
+
 
     // show hidden panels
     $(".right-side").addClass("display");
     $(".search-div").addClass("display");
     $(".menu-div").addClass("display");
+    $(".back-arrow").addClass("display");
+
 
     // show content to the right
     $(".content").fadeIn(1050);
@@ -75,7 +79,7 @@ var recipeAjaxCall = function(food){
                 //adds firebase key value to button for bookmarking purposes
                 if(response.hits[this.value].bookmarked === true){
                     console.log(response.hits[this.value].fbKey)
-                    $('#meal'+this.value).attr('firebase-key' , response.hits[this.value].fbKey)
+                    $('#meal'+this.value).attr('firebase-key' , response.hits[this.value].fbKey);
                 }
 
                 //clear top and bottom to display data based on the Reciped Button clicked
@@ -174,8 +178,10 @@ var recipeAjaxCall = function(food){
                     if(responseObject.recipeBookmarked === false){
                         // marks the recipe as saved and changes the button to inform the user that the recipe is saved
                         response.hits[this.value].bookmarked = true;
+                        $('#meal'+this.value).addClass("color-change");
+                        // console.log(this.value);
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;
-                        saveRecipeDiv.text('Recipe Saved')
+                        saveRecipeDiv.text('Recipe Saved');
                         // pushes the recipe data to firebase
                         var fbRef = database.ref().push({
                             recipeName: responseObject.recipeName,
