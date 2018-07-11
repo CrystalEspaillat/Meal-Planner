@@ -34,12 +34,18 @@ function toggler () {
         $(".infoBox").css({"background": "#C4E5A9"})  
         database.ref().on("child_added", function(snapshot) {
             var sv = snapshot.val();
+
+            var removeButton = $('<button>').text('remove').addClass('remove-macro').val(snapshot.key);
+
+            removeButton.on('click' , function(){
+                database.ref().child(this.value).remove();
+            })
         
             // calorie count
             var calorieTableData = $('<td>').text(sv.recipeDetails.calorieCount);
 
             //macro table
-            var calorieRow = $('<tr>').append($('<td>').text('Calories: ') , calorieTableData , $('<td>'))
+            var calorieRow = $('<tr>').append($('<td>').text('Calories: ') , calorieTableData , $('<td>').text('Daily Value'))
             var carbTableData = $('<td>').text(sv.recipeDetails.carbCount + 'g')
             var carbPercent = $('<td>').text(sv.recipeDetails.carbPercent + '%')
             var carbRow = $('<tr>').append($('<td>').text('Carbs: ') , carbTableData , carbPercent)
@@ -88,7 +94,7 @@ function toggler () {
         
             var totalDiv = $('<div>').attr('id' , snapshot.key + 'total-div-macro').addClass("chart")
         
-            totalDiv.append(newChartDiv , macroTable)
+            totalDiv.append(newChartDiv , macroTable , removeButton)
         
             $('.infoBox').append(totalDiv);
             $('.chart').fadeIn(800000);
@@ -115,8 +121,14 @@ function toggler () {
                 var ingredientListItem = $('<li>').text(sv.recipeDetails.recipeIngredients[i]);
                 ingredientList.append(ingredientListItem)
             }
+            var removeButton = $('<button>').text('remove').addClass('remove-list').val(snapshot.key);
+
+            removeButton.on('click' , function(){
+                database.ref().child(this.value).remove();
+            })
+
             var totalDiv = $('<div>').attr('id' , snapshot.key + 'total-div-list');
-            totalDiv.append(recipeHeading , ingredientList);
+            totalDiv.append(recipeHeading , ingredientList , removeButton);
             $('.infoBox').append(totalDiv);
         
         

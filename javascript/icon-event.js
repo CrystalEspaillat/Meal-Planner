@@ -125,10 +125,6 @@ var recipeAjaxCall = function(food){
                     ingredientList.append(listItem);
                 }
 
-                var recipeURL = $('<a>').attr('class' , 'recipe-url').text("click here for recipe");
-                recipeURL.attr('href' , responseObject.recipeLink);
-
-
                 var headingRow = $('<tr>').html('<th>Cals</th> <th>Carbs</th> <th>Fats</th> <th>Protein</th>')
                 var dataRow = $('<tr>');
 
@@ -152,7 +148,7 @@ var recipeAjaxCall = function(food){
 
                 nutrientTable.append(headingRow , dataRow);
 
-                $('.content').append(foodPic, nutrientTable, yieldPrint , ingredientList , recipeURL);
+                $('.content').append(foodPic, nutrientTable, yieldPrint , ingredientList);
 
                 // buttons created for bottom menu
                 var seeRecipeDiv = $('<div>').text('See Recipe').attr('id' , 'see-recipe');
