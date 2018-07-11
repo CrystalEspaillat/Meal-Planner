@@ -54,7 +54,7 @@ function toggler () {
             // allCarbsPercent = allCarbsPercent + sv.recipeDetails.carbCount;
             // allProteinsPercent = allProteinsPercent + sv.recipeDetails.proteinCount;
 
-            var removeButton = $('<button>').text('remove').addClass('remove-macro').val(snapshot.key);
+            var removeButton = $('<i class="far fa-trash-alt"></i>').addClass('remove-macro').val(snapshot.key);
 
             removeButton.on('click' , function(){
                 database.ref().child(this.value).remove();
@@ -72,7 +72,7 @@ function toggler () {
             var proteinPercent = $('<td>').text(sv.recipeDetails.proteinPercent + '%')
             var proteinRow = $('<tr>').append($('<th>').text('Protein: ') , proteinTableData , proteinPercent)
         
-            var macroTable = $('<table id=macroTable>').append(calorieRow, carbRow , fatRow , proteinRow).css('width' , '400px')
+            var macroTable = $('<table id=macroTable>').append(calorieRow, carbRow , fatRow , proteinRow).css('width' , '375px')
         
            //macro pie chart
             var chartGen = function(chartPlace){
@@ -163,7 +163,7 @@ function toggler () {
                     chart.draw(data, options);
                 }
             }
-            var newChartDiv = $('<div>').attr('id' , 'total_chart_div');
+            var newChartDiv = $('<div>').attr('id' , 'total_chart_div').addClass("totals");
             var totalDiv = $('<div>').attr('id' , 'total-div-macro').addClass("chart");
             totalDiv.append(newChartDiv , macroTable);
             // chartGen('total_chart_div');
@@ -198,7 +198,7 @@ function toggler () {
                 var ingredientListItem = $('<li>').text(sv.recipeDetails.recipeIngredients[i]);
                 ingredientList.append(ingredientListItem)
             }
-            var removeButton = $('<button>').text('remove').addClass('remove-list').val(snapshot.key);
+            var removeButton = $('<i class="far fa-trash-alt"></i>').addClass('remove-list').val(snapshot.key);
 
             removeButton.on('click' , function(){
                 database.ref().child(this.value).remove();
