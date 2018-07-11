@@ -95,6 +95,24 @@ var recipeAjaxCall = function(food){
                 $('.content').empty();
                 $('.bottom-menu').empty();
 
+                // recipe yield fix
+                if(response.hits[this.value].recipe.yield === 1){
+                    if(response.hits[this.value].recipe.calories>=8000){
+                        response.hits[this.value].recipe.yield = 14;
+                    }else if(response.hits[this.value].recipe.calories>=6000){
+                        response.hits[this.value].recipe.yield = 10;
+                    }else if(response.hits[this.value].recipe.calories>=4000){
+                        response.hits[this.value].recipe.yield = 7;
+                    }else if(response.hits[this.value].recipe.calories>=2000){
+                        response.hits[this.value].recipe.yield = 4;
+                    }else if(response.hits[this.value].recipe.calories>=850){
+                        response.hits[this.value].recipe.yield = 2;
+                    }else if(response.hits[this.value].recipe.calories<850){
+                        response.hits[this.value].recipe.yield = 1;
+                    }
+                };
+                
+
                 //Object created based on AJAX response
                 var responseObject = {
                     recipeName: response.hits[this.value].recipe.label,

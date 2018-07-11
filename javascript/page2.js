@@ -25,6 +25,15 @@ $(document).on("click", "#emailMe", mailBox);
 function toggler () {
     toggleNumber =!toggleNumber
 
+    // variables for total macro table and chart
+    var allCalories = 0;
+    var allFat = 0;
+    var allCarbs = 0;
+    var allProteins = 0;
+    // var allFatPercent = 0;
+    // var allCarbsPercent = 0;
+    // var allProteinsPercent = 0;
+
     if (toggleNumber === false) {
 
         $('.infoBox').empty();
@@ -33,28 +42,35 @@ function toggler () {
         $(".inner-container:first-child").css({"background": "#DA4E46", "color": "white"})
         $(".infoBox").css({"background": "#C4E5A9"})  
         database.ref().on("child_added", function(snapshot) {
+
             var sv = snapshot.val();
+
+            //gathers values for total display
+            allCalories = allCalories + sv.recipeDetails.calorieCount;
+            allFat =  allFat + sv.recipeDetails.fatCount;
+            allCarbs = allCarbs + sv.recipeDetails.carbCount;
+            allProteins = allProteins + sv.recipeDetails.proteinCount;
+            // allFatPercent =  allFatPercent + sv.recipeDetails.fatCount;
+            // allCarbsPercent = allCarbsPercent + sv.recipeDetails.carbCount;
+            // allProteinsPercent = allProteinsPercent + sv.recipeDetails.proteinCount;
 
             var removeButton = $('<button>').text('remove').addClass('remove-macro').val(snapshot.key);
 
             removeButton.on('click' , function(){
                 database.ref().child(this.value).remove();
             })
-        
-            // calorie count
-            var calorieTableData = $('<td>').text(sv.recipeDetails.calorieCount);
 
             //macro table
-            var calorieRow = $('<tr>').append($('<td>').text('Calories: ') , calorieTableData , $('<td>').text('Daily Value'))
+            var calorieRow = $('<tr>').append($('<th>').text('Calories: ') , $('<td>').text(sv.recipeDetails.calorieCount) , $('<th>').text('Daily Value'))
             var carbTableData = $('<td>').text(sv.recipeDetails.carbCount + 'g')
             var carbPercent = $('<td>').text(sv.recipeDetails.carbPercent + '%')
-            var carbRow = $('<tr>').append($('<td>').text('Carbs: ') , carbTableData , carbPercent)
+            var carbRow = $('<tr>').append($('<th>').text('Carbs: ') , carbTableData , carbPercent)
             var fatTableData = $('<td>').text(sv.recipeDetails.fatCount + 'g')
             var fatPercent = $('<td>').text(sv.recipeDetails.fatPercent + '%')
-            var fatRow = $('<tr>').append($('<td>').text('Fat: ') , fatTableData , fatPercent)
+            var fatRow = $('<tr>').append($('<th>').text('Fat: ') , fatTableData , fatPercent)
             var proteinTableData = $('<td>').text(sv.recipeDetails.proteinCount + 'g')
             var proteinPercent = $('<td>').text(sv.recipeDetails.proteinPercent + '%')
-            var proteinRow = $('<tr>').append($('<td>').text('Protein: ') , proteinTableData , proteinPercent)
+            var proteinRow = $('<tr>').append($('<th>').text('Protein: ') , proteinTableData , proteinPercent)
         
             var macroTable = $('<table id=macroTable>').append(calorieRow, carbRow , fatRow , proteinRow).css('width' , '400px')
         
@@ -105,9 +121,70 @@ function toggler () {
         
         
         });
+        var RecipeTotalDisplay = function(){
+            //generate table for totals
+            var calorieRow = $('<tr>').append($('<th>').text('Calories: ') , $('<td>').text(allCalories));
+            var carbTableData = $('<td>').text(allCarbs + 'g');
+            var carbRow = $('<tr>').append($('<th>').text('Carbs: ') , carbTableData);
+            var fatTableData = $('<td>').text(allFat + 'g');
+            var fatRow = $('<tr>').append($('<th>').text('Fat: ') , fatTableData);
+            var proteinTableData = $('<td>').text(allProteins + 'g');
+            var proteinRow = $('<tr>').append($('<th>').text('Protein: ') , proteinTableData);
+            var macroTable = $('<table id=macroTable>').append(calorieRow, carbRow , fatRow , proteinRow).css('width' , '300px');
+
+            //generate chart for totals
+            var chartGen = function(chartPlace){
+                // Load the Visualization API and the corechart package.
+                google.charts.load('current', {'packages':['corechart']});
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+        
+                function drawChart() {
+        
+                    var data = google.visualization.arrayToDataTable([
+                        ['Macro', 'Value in grams'],
+                        ['Carbs', allCarbs],
+                        ['Proteins', allProteins],
+                        ['Fats', allFat]
+                    ]);
+        
+                    var options = {
+                        title: 'Totals From All Stored Recipes',
+                        width: 400,
+                        height: 240,
+                        colors: ['#B2E0E6', '#F9B44C', '#DA4E46'],
+                        is3D: true,
+                        backgroundColor: { fill:'transparent' }
+
+                    
+                    };
+                    var chart = new google.visualization.PieChart(document.getElementById(chartPlace));
+        
+                    chart.draw(data, options);
+                }
+            }
+            var newChartDiv = $('<div>').attr('id' , 'total_chart_div');
+            var totalDiv = $('<div>').attr('id' , 'total-div-macro').addClass("chart");
+            totalDiv.append(newChartDiv , macroTable);
+            // chartGen('total_chart_div');
+            $('.infoBox').prepend(totalDiv);
+            chartGen('total_chart_div');
+        }
+        RecipeTotalDisplay();
         database.ref().on("child_removed", function(snapshot) {
             $('#' + snapshot.key +'total-div').remove();
-        });    
+            //removes total chart
+            $('#total-div-macro').remove();
+            //updates values for new total chart
+            var sv = snapshot.val();
+            allCalories = allCalories - sv.recipeDetails.calorieCount;
+            allFat =  allFat - sv.recipeDetails.fatCount;
+            allCarbs = allCarbs - sv.recipeDetails.carbCount;
+            allProteins = allProteins - sv.recipeDetails.proteinCount;
+            //updated total chart created
+            RecipeTotalDisplay();
+        });
+
     } else {//toggleNumber === true//
         //List Dump
         $('.infoBox').empty();
