@@ -8,6 +8,10 @@ body {
 
 /* ////////// The Icon ////////// */
 
+.meal-icon{
+    margin: auto;
+}
+
 .meal-icon img {
     /* Make the icon a specific height */
     width: 200px;
@@ -145,6 +149,10 @@ form {
 .close-panels {
     width: 100vw;
     height: 100vh;
+}
+
+.hide {
+    display: none;
 }
 
 /* ////////// Responsive ////////// */

@@ -13,10 +13,7 @@ var database = firebase.database();
 
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
-    var iconValue = $(this).attr('food-value')
-
-    //ajax query function
-    recipeAjaxCall(iconValue)
+    var iconValue = $(this).attr('food-value');
 
     //slide icon to the top left
     $(".icon-div").addClass("animate slide-icon");
@@ -33,6 +30,15 @@ $(".meal-icon").on("click", function() {
     // show content to the right
     $(".content").fadeIn(1050);
 
+    $(this).attr('click-status' , 'yes');
+    
+    $('.meal-icon').hide();
+
+    //hide other icons
+    if($('.meal-icon').attr('click-status') === 'yes'){
+        $(this).show();
+    }
+
     // search bar function
     $('#submit').on('click' , function(event){
         event.preventDefault();
@@ -41,7 +47,10 @@ $(".meal-icon").on("click", function() {
         $('.content').empty();
         $('.content').html('<h1>Click or search a recipe for more info.</h1>')
         $('.bottom-menu').empty();
-    })
+    });
+
+    //ajax query function
+    recipeAjaxCall(iconValue);
     
 });
 

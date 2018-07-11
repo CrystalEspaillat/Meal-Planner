@@ -14,4 +14,10 @@ $(".back-arrow").on("click", function() {
         // show content to the right
         $(".content").fadeOut(1050);
 
+        $('.meal-icon').show();
+        if($('.meal-icon').attr('click-status') === 'yes'){
+                $(this).attr('click-status', 'no');
+        }
+
+        $('#search').val('');
 });
