@@ -167,6 +167,10 @@ form {
         height: 20vh;
     }
 
+    .icon-div img {
+       width: 100px;
+       height: 100px; 
+    }
     .search-div {
         width: 100vw;
     }
