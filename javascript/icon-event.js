@@ -11,12 +11,23 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// create array to store recipe urls from firebase storage
+var mealBookmarkArray = [];
+//check firebase for bookmarks
+database.ref().on("child_added", function(snapshot) {
+    var sv = snapshot.val()
+    mealBookmarkArray.push(sv.recipeDetails.recipeURL)
+});
+
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
-    var iconValue = $(this).attr('food-value')
 
-    //ajax query function
-    recipeAjaxCall(iconValue)
+    // prepares content area for new info
+    $('.content').empty();
+    $('.content').html('<h1>Click or search a recipe for more info.</h1>');
+    $('.bottom-menu').empty();
+
+    var iconValue = $(this).attr('food-value');
 
     //slide icon to the top left
     $(".icon-div").addClass("animate slide-icon");
@@ -33,6 +44,15 @@ $(".meal-icon").on("click", function() {
     // show content to the right
     $(".content").fadeIn(1050);
 
+    $(this).attr('click-status' , 'yes');
+    
+    $('.meal-icon').hide();
+
+    //hide other icons
+    if($('.meal-icon').attr('click-status') === 'yes'){
+        $(this).show();
+    }
+
     // search bar function
     $('#submit').on('click' , function(event){
         event.preventDefault();
@@ -41,7 +61,10 @@ $(".meal-icon").on("click", function() {
         $('.content').empty();
         $('.content').html('<h1>Click or search a recipe for more info.</h1>')
         $('.bottom-menu').empty();
-    })
+    });
+
+    //ajax query function
+    recipeAjaxCall(iconValue);
     
 });
 
@@ -69,6 +92,12 @@ var recipeAjaxCall = function(food){
 
         //Add text and values to Recipe Buttons
         for(j=0 ; j < response.hits.length ; j++){
+            //removes color change from previous bookmarks
+            $('#meal'+j).removeClass('color-change');
+            //colors meal buttons if they are bookmarked
+            if(mealBookmarkArray.includes(response.hits[j].recipe.url)){
+                $('#meal'+j).addClass('color-change');
+            };
 
             // Labels menu buttons
             $('#meal'+j).text(response.hits[j].recipe.label).val(j).attr('firebase-key' , 'x');
@@ -85,6 +114,24 @@ var recipeAjaxCall = function(food){
                 //clear top and bottom to display data based on the Reciped Button clicked
                 $('.content').empty();
                 $('.bottom-menu').empty();
+
+                // recipe yield fix
+                if(response.hits[this.value].recipe.yield === 1){
+                    if(response.hits[this.value].recipe.calories>=8000){
+                        response.hits[this.value].recipe.yield = 14;
+                    }else if(response.hits[this.value].recipe.calories>=6000){
+                        response.hits[this.value].recipe.yield = 10;
+                    }else if(response.hits[this.value].recipe.calories>=4000){
+                        response.hits[this.value].recipe.yield = 7;
+                    }else if(response.hits[this.value].recipe.calories>=2000){
+                        response.hits[this.value].recipe.yield = 4;
+                    }else if(response.hits[this.value].recipe.calories>=850){
+                        response.hits[this.value].recipe.yield = 2;
+                    }else if(response.hits[this.value].recipe.calories<850){
+                        response.hits[this.value].recipe.yield = 1;
+                    }
+                };
+                
 
                 //Object created based on AJAX response
                 var responseObject = {
@@ -105,7 +152,8 @@ var recipeAjaxCall = function(food){
 
                 // create content to be appended to the right side
                 var foodPic = $('<div>').css('background-image' , 'url("' + responseObject.recipeImage + '")').addClass('food-pic');
-                var labelHead = $('<h1>').attr('class' , 'food-label').text(responseObject.recipeName);
+                var labelHead = $('<div>').attr('class' , 'food-label');
+                labelHead.append($('<h1>').text(responseObject.recipeName));
                 foodPic.append(labelHead);
 
                 var yieldPrint = $('<p>').attr('class' , 'yield-print').text("Serves: " + responseObject.recipeYield);
@@ -115,10 +163,6 @@ var recipeAjaxCall = function(food){
                     var listItem = $('<li>').text(responseObject.recipeIngredients[i]);
                     ingredientList.append(listItem);
                 }
-
-                var recipeURL = $('<a>').attr('class' , 'recipe-url').text("click here for recipe");
-                recipeURL.attr('href' , responseObject.recipeLink);
-
 
                 var headingRow = $('<tr>').html('<th>Cals</th> <th>Carbs</th> <th>Fats</th> <th>Protein</th>')
                 var dataRow = $('<tr>');
@@ -143,7 +187,7 @@ var recipeAjaxCall = function(food){
 
                 nutrientTable.append(headingRow , dataRow);
 
-                $('.content').append(foodPic, nutrientTable, yieldPrint , ingredientList , recipeURL);
+                $('.content').append(foodPic, nutrientTable, yieldPrint , ingredientList);
 
                 // buttons created for bottom menu
                 var seeRecipeDiv = $('<div>').text('See Recipe').attr('id' , 'see-recipe');
@@ -179,7 +223,6 @@ var recipeAjaxCall = function(food){
                         // marks the recipe as saved and changes the button to inform the user that the recipe is saved
                         response.hits[this.value].bookmarked = true;
                         $('#meal'+this.value).addClass("color-change");
-                        // console.log(this.value);
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;
                         saveRecipeDiv.text('Recipe Saved');
                         // pushes the recipe data to firebase
@@ -201,6 +244,13 @@ var recipeAjaxCall = function(food){
                         $('#meal'+this.value).attr('firebase-key' , fbRef.key)
                     // if the recipe bookmarked and the button is pressed...
                     }else{
+                        //removes color change since recipe is no longer bookmarked
+                        $('#meal'+this.value).removeClass("color-change");
+                        //removes link from bookmark reference array to avoid incorrect meal button coloring
+                        var mealIndex=mealBookmarkArray.indexOf(responseObject.recipeLink);
+                        if (mealIndex > -1) {
+                            mealBookmarkArray.splice(mealIndex, 1);
+                        };
                         // unsaves the recipe by making the bookmarked value false
                         response.hits[this.value].bookmarked = false;
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;

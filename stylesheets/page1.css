@@ -8,6 +8,10 @@ body {
 
 /* ////////// The Icon ////////// */
 
+.meal-icon{
+    margin: auto;
+}
+
 .meal-icon img {
     /* Make the icon a specific height */
     width: 200px;
@@ -147,6 +151,10 @@ form {
     height: 100vh;
 }
 
+.hide {
+    display: none;
+}
+
 /* ////////// Responsive ////////// */
 
 @media screen and (max-width: 400px) {
@@ -159,6 +167,10 @@ form {
         height: 20vh;
     }
 
+    .icon-div img {
+       width: 100px;
+       height: 100px; 
+    }
     .search-div {
         width: 100vw;
     }

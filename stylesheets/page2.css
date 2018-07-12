@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Asap:400,500,700');
-
 body {
-    /* background: url("https://image.freepik.com/free-photo/food-background-food-concept-with-various-tasty-fresh-ingredients-for-cooking-italian-food-ingredients-view-from-above-with-copy-space_1220-1491.jpg") ;
-    background-size: cover; */
     background:  #B2E0E6;
 }
 
@@ -102,6 +98,7 @@ body {
     left: 5%;
     overflow-y: auto;
     transition: .5s;
+    box-shadow: 8px 8px 5px grey;
 }
 
 .ingredient-heading {
@@ -111,6 +108,7 @@ body {
 }
 
 .ingredient-list {
+    width: 500px;
     margin-top: 3%;
     margin-left: 33%;
     transition: .5s;
@@ -148,6 +146,8 @@ body {
     background-color: #4CAF50;
     color: white;
 }
+
+
 /* button styles  */
 #emailMe {
     position: absolute;
@@ -166,10 +166,29 @@ body {
     display: none;
 }
 
+.remove-macro {
+    height: 15px;
+    cursor: pointer;
+    
+  }
+
+.remove-list {
+    cursor: pointer;
+   position: relative;
+   left: 70%;
+   margin-bottom: 5%;
+
+}
+
+.remove-list:hover,
+.remove-macro:hover {    
+    text-shadow: 0px 0px 10px #DA4E46;
+}
+
 #page1{
     position: absolute;
     bottom: 5%;
-    left: 45%;
+    left: 45.4%;
     background-color:  #F9B44C;
     width: 10%;
     height: 35px;
@@ -199,8 +218,8 @@ body {
 
     #page1 {
         position: absolute;
-       bottom: .5%;
-        left: 43%;
+       bottom: -.5%;
+        left: 45%;
         
     }
 
@@ -211,6 +230,7 @@ body {
         top:10%;
         left: 0%;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .toggleButton{
@@ -238,21 +258,52 @@ body {
     }
 
     .ingredient-heading {
-        font-size: 28px;
+        width: 90%;
+        text-align: center;
+        font-size: 23px;
         justify-content: center;
         display: flex;
-        margin-left: 15%;
+       
     }
     
     .ingredient-list {
-        margin-top: 3%;
-        margin-right: 15%;
-        position: relative;
-        right: 15%;
+        width: 90%;
+       position: relative;
+       left: -25%;
+        
     }
+
+    .remove-list {
+       position: relative;
+       left: 5%;
+       
+    }
+
+    .remove-macro {
+        position: relative;
+        left: -5%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+      }
 
     .chart {
         display: inline-block;
+        position: relative;
+        left: 10%;
     }
 
+    .totals {
+     position: relative;
+     left: -9%;
+    }
+
+    #total-div-macro.chart {
+        left: 20%;
+    }
+
+    #macroTable {
+        width: 100%;
+        position: relative;
+        left: -8%;
+    }
 }
