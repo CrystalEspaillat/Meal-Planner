@@ -114,21 +114,31 @@ form {
     height: 100%;
     border: 0px solid transparent;
     margin: 0px;
-    width: 45vw;
+    width: 30vw;
 }
  #submit {
-     background-color: #f9b44c;
+     background-color: #CF3A39;
      border: 0px;
      color: white;
      font-weight: bold;
      text-transform: uppercase;
      height: 100%;
-     width: 5vw;
+     width: 10vw;
  }
 
  #submit:hover {
      cursor: pointer;
  }
+
+ #more {
+    background-color: #f9b44c;
+    border: 0px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 100%;
+    width: 10vw;
+}
 
 
 /* ////////// The On Click Animations ////////// */
