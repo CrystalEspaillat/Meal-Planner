@@ -152,7 +152,8 @@ var recipeAjaxCall = function(food){
 
                 // create content to be appended to the right side
                 var foodPic = $('<div>').css('background-image' , 'url("' + responseObject.recipeImage + '")').addClass('food-pic');
-                var labelHead = $('<h1>').attr('class' , 'food-label').text(responseObject.recipeName);
+                var labelHead = $('<div>').attr('class' , 'food-label');
+                labelHead.append($('<h1>').text(responseObject.recipeName));
                 foodPic.append(labelHead);
 
                 var yieldPrint = $('<p>').attr('class' , 'yield-print').text("Serves: " + responseObject.recipeYield);
