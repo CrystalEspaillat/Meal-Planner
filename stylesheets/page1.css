@@ -186,9 +186,13 @@ form {
     }
 
     #search {
-        width: 80vw;
+        width: 60vw;
     }
     #submit {
+        width: 20vw;
+    }
+
+    #more {
         width: 20vw;
     }
 
