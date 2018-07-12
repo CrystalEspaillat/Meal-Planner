@@ -11,8 +11,22 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// create array to store recipe urls from firebase storage
+var mealBookmarkArray = [];
+//check firebase for bookmarks
+database.ref().on("child_added", function(snapshot) {
+    var sv = snapshot.val()
+    mealBookmarkArray.push(sv.recipeDetails.recipeURL)
+});
+
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
+
+    // prepares content area for new info
+    $('.content').empty();
+    $('.content').html('<h1>Click or search a recipe for more info.</h1>');
+    $('.bottom-menu').empty();
+
     var iconValue = $(this).attr('food-value');
 
     //slide icon to the top left
@@ -78,6 +92,12 @@ var recipeAjaxCall = function(food){
 
         //Add text and values to Recipe Buttons
         for(j=0 ; j < response.hits.length ; j++){
+            //removes color change from previous bookmarks
+            $('#meal'+j).removeClass('color-change');
+            //colors meal buttons if they are bookmarked
+            if(mealBookmarkArray.includes(response.hits[j].recipe.url)){
+                $('#meal'+j).addClass('color-change');
+            };
 
             // Labels menu buttons
             $('#meal'+j).text(response.hits[j].recipe.label).val(j).attr('firebase-key' , 'x');
@@ -202,7 +222,6 @@ var recipeAjaxCall = function(food){
                         // marks the recipe as saved and changes the button to inform the user that the recipe is saved
                         response.hits[this.value].bookmarked = true;
                         $('#meal'+this.value).addClass("color-change");
-                        // console.log(this.value);
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;
                         saveRecipeDiv.text('Recipe Saved');
                         // pushes the recipe data to firebase
@@ -224,6 +243,13 @@ var recipeAjaxCall = function(food){
                         $('#meal'+this.value).attr('firebase-key' , fbRef.key)
                     // if the recipe bookmarked and the button is pressed...
                     }else{
+                        //removes color change since recipe is no longer bookmarked
+                        $('#meal'+this.value).removeClass("color-change");
+                        //removes link from bookmark reference array to avoid incorrect meal button coloring
+                        var mealIndex=mealBookmarkArray.indexOf(responseObject.recipeLink);
+                        if (mealIndex > -1) {
+                            mealBookmarkArray.splice(mealIndex, 1);
+                        };
                         // unsaves the recipe by making the bookmarked value false
                         response.hits[this.value].bookmarked = false;
                         responseObject.recipeBookmarked = response.hits[this.value].bookmarked;
