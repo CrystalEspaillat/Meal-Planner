@@ -23,6 +23,8 @@ database.ref().on("child_added", function(snapshot) {
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
 
+    $('#search').val("");
+
     var queryValue1;
     var queryValue2;
 
@@ -132,7 +134,7 @@ var recipeAjaxCall = function(food , numb1 , numb2){
 
                 //adds firebase key value to button for bookmarking purposes
                 if(response.hits[this.value].bookmarked === true){
-                    console.log(response.hits[this.value].fbKey)
+                    // console.log(response.hits[this.value].fbKey)
                     $('#meal'+this.value).attr('firebase-key' , response.hits[this.value].fbKey);
                 }
 
