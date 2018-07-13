@@ -23,6 +23,11 @@ database.ref().on("child_added", function(snapshot) {
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
 
+    var queryValue1;
+    var queryValue2;
+
+    queryValue1 = 0;
+    queryValue2 = 6;
     // prepares content area for new info to be displayed
     $('.content').empty();
     // Add html to page before any recipe data is displayed
@@ -58,26 +63,43 @@ $(".meal-icon").on("click", function() {
 
     // search bar function
     $('#submit').on('click' , function(event){
+        queryValue1 = 0;
+        queryValue2 = 6;
         event.preventDefault();
         // searches for user input within the meal of the icon clicked
-        recipeAjaxCall(iconValue + ' ' + $('#search').val());
+        recipeAjaxCall(iconValue + ' ' + $('#search').val(), queryValue1 , queryValue2);
         $('.content').empty();
-        $('.content').html('<h1>Click or search a recipe for more info.</h1>')
+        $('.content').html('<h1>Click or search a recipe for more info.</h1>');
         $('.bottom-menu').empty();
     });
 
     //ajax query function
-    recipeAjaxCall(iconValue);
+    recipeAjaxCall(iconValue , queryValue1 , queryValue2);
+
+    $('#more').on('click' , function(event){
+        event.preventDefault();
+        if($('#search').val() ===""){
+            queryValue1 = queryValue1+6;
+            queryValue2 = queryValue2+6;
+            recipeAjaxCall(iconValue , queryValue1 , queryValue2);
+        }else{
+            queryValue1 = queryValue1+6;
+            queryValue2 = queryValue2+6;
+            recipeAjaxCall(iconValue + ' ' + $('#search').val() , queryValue1 , queryValue2);
+        };
+    });
     
 });
 
-var recipeAjaxCall = function(food){
+var recipeAjaxCall = function(food , numb1 , numb2){
     // Ajax call
-    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from=0&to=6";
+    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from="+numb1+"&to="+numb2;
+    // var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=63cbc637&app_key=ce69f429d5076b739268cd396568280a&from="+numb1+"&to="+numb2;
     $.ajax({
         url: queryURL,
         method: "GET",
     }).then(function ajaxFollow(response){
+        console.log(queryURL)
 
         //check firebase for bookmarks
         database.ref().on("child_added", function(snapshot) {
