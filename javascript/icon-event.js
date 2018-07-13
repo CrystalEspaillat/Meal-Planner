@@ -23,6 +23,8 @@ database.ref().on("child_added", function(snapshot) {
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
 
+    $('#search').val("");
+
     var queryValue1;
     var queryValue2;
 
