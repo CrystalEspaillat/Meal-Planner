@@ -23,6 +23,10 @@ database.ref().on("child_added", function(snapshot) {
 // when the user clicks the meal icon ...
 $(".meal-icon").on("click", function() {
 
+    // clears click functions from previous meal icon clicks
+    $('#submit').off('click');
+    $('#more').off('click');
+
     $('#search').val("");
 
     var queryValue1;
@@ -95,8 +99,8 @@ $(".meal-icon").on("click", function() {
 
 var recipeAjaxCall = function(food , numb1 , numb2){
     // Ajax call
-    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from="+numb1+"&to="+numb2;
-    // var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=63cbc637&app_key=ce69f429d5076b739268cd396568280a&from="+numb1+"&to="+numb2;
+    // var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=41e3ccd3&app_key=33a8b8ab0056c0569da2034a03312da0&from="+numb1+"&to="+numb2;
+    var queryURL = "https://api.edamam.com/search?q="+food+"&app_id=63cbc637&app_key=ce69f429d5076b739268cd396568280a&from="+numb1+"&to="+numb2;
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -119,6 +123,8 @@ var recipeAjaxCall = function(food , numb1 , numb2){
 
         //Add text and values to Recipe Buttons
         for(j=0 ; j < response.hits.length ; j++){
+            //clearing click event from previous meal icon click
+            $('#meal'+j).off('click');
             //removes color change from previous bookmarks
             $('#meal'+j).removeClass('color-change');
             //colors meal buttons if they are bookmarked
