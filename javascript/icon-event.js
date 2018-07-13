@@ -13,7 +13,8 @@ var database = firebase.database();
 
 // create array to store recipe urls from firebase storage
 var mealBookmarkArray = [];
-//check firebase for bookmarks
+
+// check firebase for bookmarks
 database.ref().on("child_added", function(snapshot) {
     var sv = snapshot.val()
     mealBookmarkArray.push(sv.recipeDetails.recipeURL)
@@ -27,10 +28,11 @@ $(".meal-icon").on("click", function() {
 
     queryValue1 = 0;
     queryValue2 = 6;
-
-    // prepares content area for new info
+    // prepares content area for new info to be displayed
     $('.content').empty();
-    $('.content').html('<h1>Click or search a recipe for more info.</h1>');
+    // Add html to page before any recipe data is displayed
+    $('.content').html('<h1>Click or search a recipe to get started.</h1>');
+    // Hide bottom menu
     $('.bottom-menu').empty();
 
     var iconValue = $(this).attr('food-value');
@@ -39,19 +41,19 @@ $(".meal-icon").on("click", function() {
     $(".icon-div").addClass("animate slide-icon");
     $(".icon-div").removeClass("animate close-panels");
 
-
     // show hidden panels
     $(".right-side").addClass("display");
     $(".search-div").addClass("display");
     $(".menu-div").addClass("display");
     $(".back-arrow").addClass("display");
 
-
     // show content to the right
     $(".content").fadeIn(1050);
 
+    // Mark the icon as "clicked" so that it stays displayed
     $(this).attr('click-status' , 'yes');
     
+    // Hide the other icons not clicked
     $('.meal-icon').hide();
 
     //hide other icons
@@ -190,19 +192,19 @@ var recipeAjaxCall = function(food , numb1 , numb2){
                 var headingRow = $('<tr>').html('<th>Cals</th> <th>Carbs</th> <th>Fats</th> <th>Protein</th>')
                 var dataRow = $('<tr>');
 
-                    //calorie amount for table
+                //calorie amount for table
                 var calorieValue = $('<td>').text(responseObject.recipeCalorie);
                 dataRow.append(calorieValue);
 
-                    //fat amount for table
+                //fat amount for table
                 var fatValue = $('<td>').text(responseObject.recipeFat + response.hits[this.value].recipe.totalNutrients.FAT.unit);
                 dataRow.append(fatValue);
 
-                    //carb amount for table
+                //carb amount for table
                 var carbValue = $('<td>').text(responseObject.recipeCarb + response.hits[this.value].recipe.totalNutrients.CHOCDF.unit);
                 dataRow.append(carbValue);
 
-                    //protein amount for table
+                //protein amount for table
                 var proteinValue = $('<td>').text(responseObject.recipeProtein + response.hits[this.value].recipe.totalNutrients.PROCNT.unit);
                 dataRow.append(proteinValue);
 
